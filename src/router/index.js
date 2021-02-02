@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Flags from "../views/Flags.vue";
+import List from "../views/List.vue";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes = [
     path: "/flags",
     name: "Flags",
     component: Flags
+  },
+  {
+    path: "/list",
+    name: "List",
+    component: List
   },
   {
     path: "/about",
