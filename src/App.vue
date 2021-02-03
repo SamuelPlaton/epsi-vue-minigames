@@ -24,15 +24,21 @@
 }
 
 #nav {
+  color: white;
   padding: 30px;
+  margin-bottom: 1rem;
+  background: linear-gradient(
+    90deg,
+    rgba(85, 106, 243, 1) 0%,
+    rgba(6, 149, 145, 1) 100%
+  );
 }
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #f57761;
 }
 </style>
