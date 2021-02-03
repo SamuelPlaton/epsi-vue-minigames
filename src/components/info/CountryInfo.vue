@@ -2,7 +2,7 @@
   <div>
     <div v-if="country" class="flex flex-row justify-around m-8">
       <div class="flex flex-col justify-between items-center">
-        <img class="w-48 object-contain" :src="country.flag" />
+        <img class="w-48 object-contain" :src="country.flag" alt="flag" />
         <p class="text-2xl font-bold mt-2">{{ country.name }}</p>
       </div>
       <div class="flex flex-col justify-between text-left">
