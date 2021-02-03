@@ -6,6 +6,7 @@
         <th class="border border-gray-light">Region</th>
         <th class="border border-gray-light">Population</th>
         <th class="border border-gray-light">Language</th>
+        <th class="border border-gray-light">Detail</th>
       </tr>
       <tr
         class="border border-gray-light text-left"
@@ -23,6 +24,13 @@
         </td>
         <td class="border border-gray-light pl-2 w-1/5">
           {{ country.languages[0].name }}
+        </td>
+        <td class="border border-gray-light text-center">
+          <a
+            class="text-center hover:text-blue-500 transition-200"
+            :href="'/#/detail/' + country.name"
+            ><i class="bi-eye" style="font-size: 1.5rem;"></i
+          ></a>
         </td>
       </tr>
     </table>

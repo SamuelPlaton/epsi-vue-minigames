@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Flags from "../views/Flags.vue";
-import List from "../views/List.vue";
+import { Detail, List } from "../views";
 
 Vue.use(VueRouter);
 
@@ -21,6 +21,11 @@ const routes = [
     path: "/list",
     name: "List",
     component: List
+  },
+  {
+    path: "/detail/:country",
+    name: "Detail",
+    component: Detail
   },
   {
     path: "/about",

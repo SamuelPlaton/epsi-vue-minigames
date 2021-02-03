@@ -2,6 +2,7 @@
   <div>
     <label class="mr-2" :for="name">{{ label }}</label>
     <select
+      class="border border-gray-300 rounded-lg p-1"
       :name="name"
       :id="name"
       v-model="optionSelected"

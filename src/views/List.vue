@@ -61,9 +61,13 @@ export default {
     }
   },
   async beforeCreate() {
-    await axios.get("https://restcountries.eu/rest/v2/all").then(res => {
-      this.countries = res.data;
-    });
+    await axios
+      .get(
+        "https://restcountries.eu/rest/v2/all?fields=name;region;subregion;population;languages"
+      )
+      .then(res => {
+        this.countries = res.data;
+      });
   }
 };
 </script>
