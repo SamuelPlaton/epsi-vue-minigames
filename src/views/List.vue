@@ -1,60 +1,60 @@
 <template>
   <div>
-    <input
-      class="border border-gray-light m-4 px-2 py-1 rounded-lg"
-      v-model="searchString"
-      id="site-search"
-      name="q"
-      placeholder="Search country"
-    />
-    <table class="mx-auto w-3/4">
-      <tr>
-        <th class="border border-gray-light">Country</th>
-        <th class="border border-gray-light">Region</th>
-        <th class="border border-gray-light">Population</th>
-        <th class="border border-gray-light">Language</th>
-      </tr>
-      <tr
-        class="border border-gray-light text-left"
-        v-for="country in filteredCountries"
-        v-bind:key="country.name"
-      >
-        <td class="border border-gray-light pl-2 w-1/5">{{ country.name }}</td>
-        <td class="border border-gray-light pl-2 w-2/5">
-          {{ country.region }}, {{ country.subregion }}
-        </td>
-        <td class="border border-gray-light pl-2 w-1/5">
-          {{
-            country.population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-          }}
-        </td>
-        <td class="border border-gray-light pl-2 w-1/5">
-          {{ country.languages[0].name }}
-        </td>
-      </tr>
-    </table>
+    <div class="flex flex-row items-center justify-around">
+      <SearchBar
+        placeholder="Search country"
+        @changeString="searchString = $event"
+      />
+      <SelectInput
+        label="Pick a region :"
+        name="regionSelection"
+        :options="regions"
+        @changeSelect="regionSelected = $event"
+      />
+    </div>
+    <CountryList :countries="filteredCountries" />
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
-// todo: filter by region
+import { CountryList, SearchBar, SelectInput } from "@/components";
 
 export default {
   name: "List",
+  components: { SelectInput, SearchBar, CountryList },
   data() {
     return {
       countries: [],
-      searchString: ""
+      searchString: "",
+      regionSelected: "",
+      regions: [
+        { label: "All", value: "" },
+        { label: "Africa", value: "Africa" },
+        { label: "Americas", value: "Americas" },
+        {
+          label: "Asia",
+          value: "Asia"
+        },
+        { label: "Europe", value: "Europe" },
+        { label: "Oceania", value: "Oceania" }
+      ]
     };
   },
   computed: {
     filteredCountries() {
-      if (this.searchString.length === 0) {
-        return this.countries;
+      let filteredRegion;
+      if (this.regionSelected === "") {
+        filteredRegion = this.countries;
       } else {
-        return this.countries.filter(country =>
+        filteredRegion = this.countries.filter(
+          country => country.region === this.regionSelected
+        );
+      }
+      if (this.searchString.length === 0) {
+        return filteredRegion;
+      } else {
+        return filteredRegion.filter(country =>
           country.name.toLowerCase().includes(this.searchString.toLowerCase())
         );
       }
