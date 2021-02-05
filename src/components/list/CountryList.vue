@@ -26,11 +26,12 @@
           {{ country.languages[0].name }}
         </td>
         <td class="border border-gray-light text-center">
-          <a
+          <router-link
+            :to="'/detail/' + country.name"
             class="text-center hover:text-blue-500 transition-200"
-            :href="'/#/detail/' + country.name"
-            ><i class="bi-eye" style="font-size: 1.5rem;"></i
-          ></a>
+          >
+            <i class="bi-eye" style="font-size: 1.5rem;"></i>
+          </router-link>
         </td>
       </tr>
     </table>

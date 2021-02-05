@@ -1,39 +1,33 @@
 <template>
   <div class="flex flex-col items-center">
-    <div class="w-full flex flex-row justify-around">
-      <p class="m-1 font-semibold">Score : {{ score }}</p>
-      <p class="m-1 font-semibold">Best : {{ bestScore }}</p>
-    </div>
-    <img
-      class="w-48 h-32 object-contain border border-black"
-      :src="answer.flag"
-      alt="flag"
+    <Scoreboard :score="score" :best-score="parseInt(bestScore)" />
+    <Game
+      v-if="!gameOver"
+      :flag="answer.flag"
+      :handled-countries="handledCountries"
+      @handleCountry="handleClick($event)"
     />
-    <div class="flex flex-row flex-wrap justify-between items-center">
-      <button
-        class="flex flex-wrap m-4 p-1 border bg-gray-200 hover:bg-green-200 rounded-lg"
-        v-for="handledCountry in handledCountries"
-        v-bind:key="handledCountry.name"
-        @click="handleClick(handledCountry)"
-      >
-        {{ handledCountry.name }}
-      </button>
-    </div>
+    <GameOver v-if="gameOver" @restart="gameOver = false" />
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import Scoreboard from "./local-components/Scoreboard";
+import Game from "./local-components/Game";
+import { GameOver } from "@/components";
 
 export default {
   name: "FlagQuiz",
+  components: { GameOver, Game, Scoreboard },
   data() {
     return {
       countries: [],
       score: 0,
       bestScore: 0,
       handledCountries: [],
-      answer: ""
+      answer: "",
+      gameOver: false
     };
   },
   methods: {
@@ -70,6 +64,7 @@ export default {
           localStorage.pbFlag = this.score;
         }
         this.score = 0;
+        this.gameOver = true;
       }
       // Redo a round
       this.pickCountries();
