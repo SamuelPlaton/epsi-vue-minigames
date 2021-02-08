@@ -20,6 +20,7 @@ export default {
       .get("https://restcountries.eu/rest/v2/name/" + country)
       .then(res => {
         this.country = res.data[0];
+        console.log(this.country);
       });
   }
 };

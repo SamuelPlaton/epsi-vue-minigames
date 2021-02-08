@@ -9,7 +9,8 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/list">List</router-link> |
       <router-link to="/quiz">Quiz</router-link> |
-      <router-link to="/hangman">Hangman</router-link>
+      <router-link to="/hangman">Hangman</router-link> |
+      <router-link to="/curr-converter">Currency Converter</router-link>
     </div>
     <router-view />
   </div>

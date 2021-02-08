@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { Home, Detail, List, Quiz, Hangman } from "../views";
+import { Home, Detail, List, Quiz, Hangman, CurrencyConverter } from "../views";
 
 Vue.use(VueRouter);
 
@@ -29,6 +29,11 @@ const routes = [
     path: "/hangman",
     name: "Hangman",
     component: Hangman
+  },
+  {
+    path: "/curr-converter",
+    name: "CurrencyConverter",
+    component: CurrencyConverter
   }
 ];
 
