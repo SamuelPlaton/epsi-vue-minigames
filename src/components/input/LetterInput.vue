@@ -12,7 +12,7 @@
     <div class="flex flex-col items-start text-left w-full">
       <p class="text-green-500">Right Letters : {{ lettersRight.join(" ") }}</p>
       <p class="text-red-500">Wrong Letters : {{ lettersWrong.join(" ") }}</p>
-      <p class="text-red-500" v-if="warningMsg">
+      <p class="text-blue-500" v-if="warningMsg">
         This letter has already been proposed ...
       </p>
     </div>
@@ -34,15 +34,15 @@ export default {
   },
   watch: {
     inputLetter() {
+      // retrieve our letter then instantly reset it
       const letter = this.inputLetter.toLowerCase();
-      console.log("ouch");
       this.inputLetter = "";
+      // We cancel only if we receive a valid character
       if (letter === " " || letter.length === 0) {
         return;
       }
-      console.log(this.lettersRight);
-      console.log(this.lettersWrong);
 
+      // Warning user and cancel treatment if the letter has already been selected
       if (
         this.lettersRight.includes(letter) ||
         this.lettersWrong.includes(letter)
@@ -51,6 +51,7 @@ export default {
         return;
       }
 
+      // Emit our result
       this.warningMsg = false;
       this.$emit("inputLetter", letter);
     }

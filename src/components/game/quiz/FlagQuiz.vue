@@ -7,7 +7,7 @@
       :handled-countries="handledCountries"
       @handleCountry="handleClick($event)"
     />
-    <GameOver v-if="gameOver" @restart="gameOver = false" />
+    <GameOver v-if="gameOver" @restart="gameOver = false" :win="false" />
   </div>
 </template>
 
@@ -15,7 +15,7 @@
 import axios from "axios";
 import Scoreboard from "./local-components/Scoreboard";
 import Game from "./local-components/Game";
-import { GameOver } from "@/components";
+import GameOver from "@/components/game/game-over/GameOver";
 
 export default {
   name: "FlagQuiz",
@@ -50,6 +50,7 @@ export default {
         // Add our country
         this.handledCountries.push(this.countries[index]);
       }
+      // Display answer in console for tests
       console.log(this.answer.name);
     },
     handleClick(handledCountry) {

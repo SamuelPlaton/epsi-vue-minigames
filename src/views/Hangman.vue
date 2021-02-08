@@ -1,22 +1,18 @@
 <template>
   <div>
-    <img
-      class="w-24 h-24 my-2"
-      alt="logo"
-      :src="
-        require('../assets/hangman/hangman-' +
-          this.lettersWrong.length +
-          '.png')
-      "
-    />
-    <p>{{ userAnswer.join(" ") }}</p>
+    <HangmanDisplay :letters-wrong="lettersWrong" :user-answer="userAnswer" />
+    <p>{{ userAnswer.toString().replaceAll(",", "") }}</p>
     <LetterInput
-      v-if="lettersWrong.length < 5"
+      v-if="lettersWrong.length < 5 && !win"
       :letters-right="lettersRight"
       :letters-wrong="lettersWrong"
       @inputLetter="handleLetter($event)"
     />
-    <GameOver v-if="lettersWrong.length === 5" @restart="pickCountry" />
+    <GameOver
+      v-if="lettersWrong.length === 5 || win"
+      @restart="play"
+      :win="win"
+    />
   </div>
 </template>
 
@@ -24,61 +20,64 @@
 import axios from "axios";
 import LetterInput from "@/components/input/LetterInput";
 import GameOver from "@/components/game/game-over/GameOver";
+import HangmanDisplay from "@/components/game/hangman/hangman-display/HangmanDisplay";
 
 export default {
   name: "Hangman",
-  components: { GameOver, LetterInput },
+  components: { HangmanDisplay, GameOver, LetterInput },
   data() {
     return {
       countries: [],
       selectedCountry: [],
       lettersRight: [],
       lettersWrong: [],
-      userAnswer: []
+      userAnswer: [],
+      win: false
     };
   },
   methods: {
-    pickCountry() {
+    play() {
+      // Reset our previous data
       this.lettersWrong = [];
       this.lettersRight = [];
+      this.win = false;
+      // Randomly pick a country
       this.selectedCountry = this.countries[
         Math.floor(Math.random() * this.countries.length)
       ].name
         .toLowerCase()
         .split("");
+      // Display answer in console for tests
       console.log(this.selectedCountry.join(""));
+      // Settle a user answer
       this.userAnswer = this.selectedCountry.map(item => {
         return item === " " ? " " : "_";
       });
-      console.log(this.userAnswer.join(""));
     },
     handleLetter(letter) {
+      // Handle if a letter is correct or wrong
       if (this.selectedCountry.includes(letter)) {
         this.lettersRight.push(letter);
         this.selectedCountry.map((item, index) => {
           if (item === letter) {
             this.userAnswer[index] = item;
+            this.win = !this.userAnswer.includes("_");
           }
         });
       } else {
-        console.log("push " + letter);
         this.lettersWrong.push(letter);
       }
-    },
-    getImgUrl() {
-      var images = require.context("../assets/", false, /\.png$/);
-      return images(
-        "../assets/hangman/hangman-" + this.lettersWrong.length + ".png"
-      );
     }
   },
   async beforeCreate() {
+    // Retrieve the countries name
     await axios
       .get("https://restcountries.eu/rest/v2/all?fields=name")
       .then(res => {
         this.countries = res.data;
       });
-    this.pickCountry();
+    // Then start the game
+    this.play();
   }
 };
 </script>
