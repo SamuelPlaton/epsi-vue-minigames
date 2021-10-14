@@ -5,15 +5,17 @@
         <th class="border border-gray-light">Country</th>
         <th class="border border-gray-light">Region</th>
         <th class="border border-gray-light">Population</th>
-        <th class="border border-gray-light">Language</th>
+        <th class="border border-gray-light">Languages</th>
         <th class="border border-gray-light">Detail</th>
       </tr>
       <tr
         class="border border-gray-light text-left"
         v-for="country in countries"
-        v-bind:key="country.name"
+        v-bind:key="country.name.common"
       >
-        <td class="border border-gray-light pl-2 w-1/5">{{ country.name }}</td>
+        <td class="border border-gray-light pl-2 w-1/5">
+          {{ country.name.common }}
+        </td>
         <td class="border border-gray-light pl-2 w-2/5">
           {{ country.region }}, {{ country.subregion }}
         </td>
@@ -23,7 +25,12 @@
           }}
         </td>
         <td class="border border-gray-light pl-2 w-1/5">
-          {{ country.languages[0].name }}
+          {{
+            country.languages &&
+              Object.keys(country.languages)
+                .map(key => country.languages[key])
+                .join(" - ")
+          }}
         </td>
         <td class="border border-gray-light text-center">
           <router-link

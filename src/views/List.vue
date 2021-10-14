@@ -45,6 +45,7 @@ export default {
     filteredCountries() {
       let filteredRegion;
       if (this.regionSelected === "") {
+        console.log("pick all countries");
         filteredRegion = this.countries;
       } else {
         filteredRegion = this.countries.filter(
@@ -52,22 +53,22 @@ export default {
         );
       }
       if (this.searchString.length === 0) {
+        console.log("do not filter");
         return filteredRegion;
       } else {
         return filteredRegion.filter(country =>
-          country.name.toLowerCase().includes(this.searchString.toLowerCase())
+          country.name.common
+            .toLowerCase()
+            .includes(this.searchString.toLowerCase())
         );
       }
     }
   },
   async beforeCreate() {
-    await axios
-      .get(
-        "https://restcountries.eu/rest/v2/all?fields=name;region;subregion;population;languages"
-      )
-      .then(res => {
-        this.countries = res.data;
-      });
+    await axios.get("https://restcountries.com/v3.1/all").then(res => {
+      console.log(res.data);
+      this.countries = res.data;
+    });
   }
 };
 </script>
