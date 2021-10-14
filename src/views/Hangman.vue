@@ -44,10 +44,11 @@ export default {
       // Randomly pick a country
       this.selectedCountry = this.countries[
         Math.floor(Math.random() * this.countries.length)
-      ].name
+      ].name.common
         .toLowerCase()
         .split("");
       // Display answer in console for tests
+      console.log("selected country");
       console.log(this.selectedCountry.join(""));
       // Settle a user answer
       this.userAnswer = this.selectedCountry.map(item => {
@@ -72,7 +73,7 @@ export default {
   async beforeCreate() {
     // Retrieve the countries name
     await axios
-      .get("https://restcountries.eu/rest/v2/all?fields=name")
+      .get("https://restcountries.com/v3.1/all?fields=name")
       .then(res => {
         this.countries = res.data;
       });

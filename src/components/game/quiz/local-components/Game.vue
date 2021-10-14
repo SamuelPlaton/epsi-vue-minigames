@@ -9,10 +9,10 @@
       <button
         class="flex flex-wrap m-4 p-1 border bg-gray-200 hover:bg-green-200 rounded-lg"
         v-for="handledCountry in handledCountries"
-        v-bind:key="handledCountry.name"
+        v-bind:key="handledCountry.name.common"
         @click="$emit('handleCountry', handledCountry)"
       >
-        {{ handledCountry.name }}
+        {{ handledCountry.name.common }}
       </button>
     </div>
   </div>

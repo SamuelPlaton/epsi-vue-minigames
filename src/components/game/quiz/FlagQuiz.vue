@@ -3,7 +3,7 @@
     <Scoreboard :score="score" :best-score="parseInt(bestScore)" />
     <Game
       v-if="!gameOver"
-      :flag="answer.flag"
+      :flag="answer.flags.png"
       :handled-countries="handledCountries"
       @handleCountry="handleClick($event)"
     />
@@ -51,12 +51,12 @@ export default {
         this.handledCountries.push(this.countries[index]);
       }
       // Display answer in console for tests
-      console.log(this.answer.name);
+      console.log(this.answer.name.common);
     },
     handleClick(handledCountry) {
       // Handle anwser
       // If correct answer, increment score
-      if (handledCountry.name === this.answer.name) {
+      if (handledCountry.name.common === this.answer.name.common) {
         this.score += 1;
       } else {
         // If wrong answer, reset score to 0 and change bestScore if needed
@@ -73,8 +73,9 @@ export default {
   },
   async beforeCreate() {
     await axios
-      .get("https://restcountries.eu/rest/v2/all?fields=name;flag")
+      .get("https://restcountries.com/v3.1/all?fields=name,flags")
       .then(res => {
+        console.log(res.data);
         this.countries = res.data;
       });
     // Retrieve bestStore from the store
