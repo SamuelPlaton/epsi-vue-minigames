@@ -34,7 +34,7 @@
         </td>
         <td class="border border-gray-light text-center">
           <router-link
-            :to="'/detail/' + country.name"
+            :to="'/detail/' + country.name.common"
             class="text-center hover:text-blue-500 transition-200"
           >
             <i class="bi-eye" style="font-size: 1.5rem;"></i>
